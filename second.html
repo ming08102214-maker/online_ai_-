@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>요청된 중식 목록</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #fffaf0, #ffe6cc);
+      font-family: "Noto Sans KR", sans-serif;
+      padding: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #d46a00;
+      font-weight: 800;
+      margin-bottom: 30px;
+    }
+
+    table {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    th {
+      background-color: #ff9933;
+      color: white;
+      text-align: center;
+    }
+
+    td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .btn-back {
+      display: block;
+      width: 200px;
+      margin: 30px auto 0;
+      background: #ff9933;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      padding: 10px 0;
+      transition: 0.2s;
+    }
+
+    .btn-back:hover {
+      background: #e67e22;
+      transform: scale(1.05);
+    }
+
+    .no-data {
+      text-align: center;
+      color: #666;
+      font-size: 18px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>🍜 지금까지의 요청 음식</h2>
+
+  <div class="container">
+    <table class="table table-bordered align-middle" id="requestTable">
+      <thead>
+        <tr>
+          <th>요청 메뉴</th>
+          <th>요청 이유</th>
+          <th>요청 시간</th>
+        </tr>
+      </thead>
+      <tbody id="requestBody"></tbody>
+    </table>
+
+    <p class="no-data" id="noDataText" style="display:none;">아직 요청된 메뉴가 없습니다.</p>
+
+    <button class="btn-back" onclick="window.location.href='first.html'">← 돌아가기</button>
+  </div>
+
+  <script>
+    // 로컬스토리지에서 요청 데이터 불러오기
+    const requests = JSON.parse(localStorage.getItem('menuRequests') || '[]');
+    const tbody = document.getElementById('requestBody');
+    const noDataText = document.getElementById('noDataText');
+
+    if (requests.length === 0) {
+      noDataText.style.display = 'block';
+    } else {
+      requests.forEach(req => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${req.menu}</td>
+          <td>${req.reason}</td>
+          <td>${req.time}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>
